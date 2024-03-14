@@ -245,28 +245,30 @@ Annotator.prototype = {
     },
 
     // Make POST request, passing back the content data. On success load in the next task
-    post: function (content) {
+    // Modified by Guantong
+    // Create a download link
+
+    post: function(content) {
         var my = this;
-        $.ajax({
-            type: 'POST',
-            url: $.getJSON(postUrl),
-            contentType: 'application/json',
-            data: JSON.stringify(content)
-        })
-        .done(function(data) {
-            // If the last task had a hiddenImage component, remove it
-            if (my.currentTask.feedback === 'hiddenImage') {
-                my.hiddenImage.remove();
-            }
-            my.loadNextTask();
-        })
-        .fail(function() {
-            alert('Error: Unable to Submit Annotations');
-        })
-        .always(function() {
-            // No longer sending response
-            my.sendingResponse = false;
-        });
+        var jsonData = JSON.stringify(content);
+
+        // Create a Blob from the JSON data
+        var blob = new Blob([jsonData], { type: 'application/json' });
+
+        // Create a download link
+        var link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = 'annotations.json'; // Set the filename
+
+        // Append the link to the document and simulate a click
+        document.body.appendChild(link);
+        link.click();
+
+        // Remove the link after the download
+        document.body.removeChild(link);
+
+        // Continue with loading the next task
+        my.loadNextTask();
     }
 
 };
