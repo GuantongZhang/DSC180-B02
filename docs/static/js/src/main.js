@@ -203,14 +203,14 @@ Annotator.prototype = {
             url: dataFolder,
             success: function(data) {
                 // Extract the list of JSON files
-                var jsonFiles = $(data).find("a:contains('.json')").map(function () {
-                    var parts = this.pathname.split('/');
-                    return dataFolder + parts[parts.length - 1];
-                }).get();
+                //var jsonFiles = $(data).find("a:contains('.json')").map(function () {
+                //    var parts = this.pathname.split('/');
+                //    return dataFolder + parts[parts.length - 1];
+                //}).get();
     
-                if (dataIdx <= jsonFiles.length) {
+                if (dataIdx <= 3) {
                     // If there are more JSON files, set the dataUrl for the next iteration
-                    dataUrl = jsonFiles[dataIdx];
+                    dataUrl = "{}/sample{}".format(url, dataIdx)
                     dataIdx++;
                     console.log(dataIdx);
                     console.log(dataIdx <= jsonFiles.length);
