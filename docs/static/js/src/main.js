@@ -203,14 +203,14 @@ Annotator.prototype = {
             url: dataFolder,
             success: function(data) {
                 // Extract the list of JSON files
-                //var jsonFiles = $(data).find("a:contains('.json')").map(function () {
-                //    var parts = this.pathname.split('/');
-                //    return dataFolder + parts[parts.length - 1];
-                //}).get();
+                var jsonFiles = $(data).find("a:contains('.json')").map(function () {
+                    var parts = this.pathname.split('/');
+                    return dataFolder + parts[parts.length - 1];
+                }).get();
     
-                if (dataIdx <= 3) {
+                if (dataIdx <= jsonFiles.length) {
                     // If there are more JSON files, set the dataUrl for the next iteration
-                    dataUrl = "{}/sample{}".format(url, dataIdx)
+                    dataUrl = jsonFiles[dataIdx];
                     dataIdx++;
                     console.log(dataIdx);
                     console.log(dataIdx <= jsonFiles.length);
@@ -235,12 +235,11 @@ Annotator.prototype = {
     submitAnnotations: function() {
         // Check if all the regions have been labeled before submitting
         if (this.stages.annotationDataValidationCheck()) {
-            // Guantong: I deleted this so it is always allowed to click the submit button.
-            //if (this.sendingResponse) {
+            if (this.sendingResponse) {
                 // If it is already sending a post with the data, do nothing
-            //    return;
-            //}
-            //this.sendingResponse = true;
+                return;
+            }
+            this.sendingResponse = true;
             // Get data about the annotations the user has created
             var content = {
                 task_start_time: this.taskStartTime,
@@ -271,31 +270,28 @@ Annotator.prototype = {
     },
 
     // Make POST request, passing back the content data. On success load in the next task
-    // Modified by Guantong
-    // Create a download link
-
-    post: function(content) {
+    post: function (content) {
         var my = this;
-        var jsonData = JSON.stringify(content);
-
-        // Create a Blob from the JSON data
-        var blob = new Blob([jsonData], { type: 'application/json' });
-
-        // Create a download link
-        var link = document.createElement('a');
-        link.href = window.URL.createObjectURL(blob);
-
-        var audioFileName = dataUrl.substring(dataUrl.lastIndexOf('/') + 1, dataUrl.lastIndexOf('.'));
-        link.download = audioFileName + '.json'; // Set the filename
-
-        // Append the link to the document and simulate a click
-        document.body.appendChild(link);
-        link.click();
-
-        // Remove the link after the download
-        document.body.removeChild(link);
-
-        // Continue with loading the next task
+        // $.ajax({
+        //     type: 'POST',
+        //     url: $.getJSON(postUrl),
+        //     contentType: 'application/json',
+        //     data: JSON.stringify(content)
+        // })
+        // .done(function(data) {
+        //     // If the last task had a hiddenImage component, remove it
+        //     if (my.currentTask.feedback === 'hiddenImage') {
+        //         my.hiddenImage.remove();
+        //     }
+        //     my.loadNextTask();
+        // })
+        // .fail(function() {
+        //     alert('Error: Unable to Submit Annotations');
+        // })
+        // .always(function() {
+        //     // No longer sending response
+        //     my.sendingResponse = false;
+        // });
         my.loadNextTask();
     }
 
