@@ -199,36 +199,11 @@ Annotator.prototype = {
     // Update the interface with the next task's data
     loadNextTask: function() {
         var my = this;
-        $.ajax({
-            url: dataFolder,
-            success: function(data) {
-                // Extract the list of JSON files
-                var jsonFiles = $(data).find("a:contains('.json')").map(function () {
-                    var parts = this.pathname.split('/');
-                    return dataFolder + parts[parts.length - 1];
-                }).get();
-    
-                if (dataIdx <= jsonFiles.length) {
-                    // If there are more JSON files, set the dataUrl for the next iteration
-                    dataUrl = jsonFiles[dataIdx];
-                    dataIdx++;
-                    console.log(dataIdx);
-                    console.log(dataIdx <= jsonFiles.length);
-                    console.log(dataUrl);
-                    // Fetch the task data from the selected JSON file
-                    $.getJSON(dataUrl)
-                        .done(function(data) {
-                            my.currentTask = data.task;
-                            my.update();
-                        })
-                    }
-                }
-            })
-        // $.getJSON(dataUrl)
-        // .done(function(data) {
-        //     my.currentTask = data.task;
-        //     my.update();
-        // });
+        $.getJSON(dataUrl)
+        .done(function(data) {
+            my.currentTask = data.task;
+            my.update();
+        });
     },
 
     // Collect data about users annotations and submit it to the backend
@@ -272,27 +247,26 @@ Annotator.prototype = {
     // Make POST request, passing back the content data. On success load in the next task
     post: function (content) {
         var my = this;
-        // $.ajax({
-        //     type: 'POST',
-        //     url: $.getJSON(postUrl),
-        //     contentType: 'application/json',
-        //     data: JSON.stringify(content)
-        // })
-        // .done(function(data) {
-        //     // If the last task had a hiddenImage component, remove it
-        //     if (my.currentTask.feedback === 'hiddenImage') {
-        //         my.hiddenImage.remove();
-        //     }
-        //     my.loadNextTask();
-        // })
-        // .fail(function() {
-        //     alert('Error: Unable to Submit Annotations');
-        // })
-        // .always(function() {
-        //     // No longer sending response
-        //     my.sendingResponse = false;
-        // });
-        my.loadNextTask();
+        $.ajax({
+            type: 'POST',
+            url: $.getJSON(postUrl),
+            contentType: 'application/json',
+            data: JSON.stringify(content)
+        })
+        .done(function(data) {
+            // If the last task had a hiddenImage component, remove it
+            if (my.currentTask.feedback === 'hiddenImage') {
+                my.hiddenImage.remove();
+            }
+            my.loadNextTask();
+        })
+        .fail(function() {
+            alert('Error: Unable to Submit Annotations');
+        })
+        .always(function() {
+            // No longer sending response
+            my.sendingResponse = false;
+        });
     }
 
 };
