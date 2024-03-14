@@ -16,13 +16,11 @@ This project was started by [Dr. John Hildebrand](https://jahildebrand.scrippspr
 In order to turn audio data into tabular data, we need a way to label the data. These labels can then be used as tabular data to be used for machine learning models. Our labeler is reliant on manuel labeling from human beings, but we have tried to make it as simple as possible. Here is how it works:
 
 - The labeler loads in audio clips one at a time that are all 30 seconds long.
-![Installation steps](https://beautifuljekyll.com/assets/img/install-steps.gif)
 - The person labeling is presented with a spectrogram of the audio clip and the potential labels.
-![Installation steps2](https://beautifuljekyll.com/assets/img/install-steps.gif)
 - The person will play the clip and identify noises in the time frame they occur, these noises are visualized on the spectrogram. For each noise they hear they will drag over it on the spectrogram and add the appropriate tag.
-![Installation steps3](https://beautifuljekyll.com/assets/img/install-steps.gif)
 - Once this is completed the person hits submit, downloading a JSON file of their labels and the next clip is loaded in.
-![Installation steps4](https://beautifuljekyll.com/assets/img/install-steps.gif)
+
+![Tutorial](https://guantongzhang.github.io/DSC180-B02/assets/img/tutorial.gif)
 
 # What we did
 In our first quarter we spent a lot of time working with existing labelers with the hope of being able to have labeled data and start modeling in the second quarter. Unfortunately, none of the labelers we found actually worked, so our project became building a labeler we could use that the greater project team could then use for machine learning models. We found a labeler close to what we needed and adapted it, so that it had the correct labels, could load in new files continuously, and could successfully save labeled files.
@@ -36,6 +34,6 @@ Feel free to check our [GitHub page](https://github.com/mjswida/DSC180A-B02-labe
 
 # Credits
 
-We'd like to thank [Dr. Yoav Freund](https://jacobsschool.ucsd.edu/faculty/profile?id=246) and [Jarad Forristal], for their invaluable guidance and support throughout our journey.
+We'd like to thank [**Dr. Yoav Freund**](https://jacobsschool.ucsd.edu/faculty/profile?id=246) and **Jarad Forristal**, for their invaluable guidance and support throughout our journey.
 
 This labeler was not made from scratch. We'd also like to give special thanks to [CrowdCurio](https://github.com/CrowdCurio/audio-annotator), from where we've initially started this project.

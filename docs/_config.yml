@@ -25,9 +25,7 @@ author: Halıcıoğlu Data Science Institute, UC San Diego
 
 navbar-links:
   Authors: "authors"
-  Try Annotator:
-    - User Guide: "tutorial"
-    - Labeling Tool: "https://deanattali.com"
+  Try Annotator: "labeler"
   Resources:
     - Scripps Institute of Oceanography: "https://scripps.ucsd.edu"
     - Whale Acoustic Laboratory: https://www.cetus.ucsd.edu
